@@ -27,7 +27,6 @@ class Fitness:
             pathDistance = 0
             for i in range(len(self.route)):
                 startAirport = self.route[i]
-                targetAirport = None
                 if i + 1 < len(self.route):
                     targetAirport = self.route[i + 1]
                 else:
@@ -39,14 +38,16 @@ class Fitness:
     def routeTime(self):
         # speed in km/h
         av_speed = 50
-        if self.time == 0 & self.distance != 0:
+        if (self.time == 0) & (self.distance != 0):
             self.time = self.distance/av_speed + 44
         else:
             self.time = 0
+        return self.time
 
     def routeFitness(self):
-        self.routeDistance()
+        dist = self.routeDistance()
+        time = self.routeTime()
         # check if total time is lower than 5 working days of 12 hours
-        if self.fitness == 0 & self.time < 5*12:
-            self.fitness = 1 / float(self.routeDistance())
+        if (self.fitness == 0):
+            self.fitness = 1 / float(dist)
         return self.fitness
